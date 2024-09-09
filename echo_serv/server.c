@@ -44,6 +44,7 @@ int main(void) {
     printf("%s\n", strerror(err));
     return 4;
   }
+  printf("client connected\n");
 
 
   char *msg ="hello client!";
@@ -56,6 +57,8 @@ int main(void) {
 
   char rec[100];
   int received = recv(new_fd, rec, strlen(rec), 0);
+  printf("%s\n", rec);
+
   if(received == -1) {
     int err = errno;
     printf("%s\n", strerror(err));
@@ -65,5 +68,4 @@ int main(void) {
     return 7;
   }
 
-  printf("%s\n", rec);
 }

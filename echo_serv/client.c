@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <sys/errno.h>
 #include <stdio.h>
 #include <netdb.h>
@@ -11,8 +12,9 @@ int main(void) {
   memset(&hints, 0, sizeof(hints));
   hints.ai_family = AF_UNSPEC;
   hints.ai_socktype = SOCK_STREAM;
+  hints.ai_flags = AI_PASSIVE;
 
-  int status = getaddrinfo("www.example.com", "3490", &hints, &res);
+  int status = getaddrinfo(NULL, "8080", &hints, &res);
   if(status != 0){
     printf("%s\n", gai_strerror(status));
     return 1;
@@ -31,4 +33,14 @@ int main(void) {
     return 3;
   }
 
+  char *msg = "hello from client!";
+  int s = send(sockfd, msg, strlen(msg), 0);
+  if(s == -1) {
+    int err = errno;
+    printf("%s\n", strerror(err));
+    return 4;
+  }
+
+  printf("message sent\n");
+  while(true){}
 }
