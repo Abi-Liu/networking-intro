@@ -4,6 +4,7 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <arpa/inet.h>
 
 int main(void) {
   struct addrinfo hints, *res;
@@ -56,7 +57,7 @@ int main(void) {
   }
 
   char rec[100];
-  int received = recv(new_fd, rec, strlen(rec), 0);
+  int received = recv(new_fd, rec, sizeof(rec), 0);
   printf("%s\n", rec);
 
   if(received == -1) {
